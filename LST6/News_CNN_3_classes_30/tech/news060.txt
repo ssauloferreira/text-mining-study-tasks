@@ -1,0 +1,15 @@
+(CNN) -- Some Apple Store employees have been told to plan an all-nighter for July 24, leading to speculation that the company's new Mac operating system, OS X Mountain Lion, will be released the next day. 
+Multiple Apple workers have confirmed that some staffers have been asked to work overnight that night, according to 9to5 Mac, a site that focuses on Apple news. 
+Mountain Lion is expected to hit stores this month, so the obvious speculation has moved in that direction. 
+Also, Apple's quarterly earnings report is scheduled for the 24th. 
+Last year, the current Mac system, Lion, was announced during a July earnings report and released the next day. 
+OS X 10.8 Mountain Lion will be available to Mac users as a $19.99 upgrade to their current operating system. 
+At its WWDC developers conference last month in San Francisco, Apple said that Mountain Lion will have 200 new features. 
+They'll include iMessages, the texting feature already available on mobile devices, speech-to-text dictation and predictive "smart search" in the Safari browser. 
+The new Mountain Lion system also adds something called Power Nap, a feature that keeps your laptop up to date while it sleeps by automatically refreshing mail, contacts and other apps. 
+Game Center will be another adaptation coming from the mobile iOS system, giving gamers a central place to find games and opponents -- a stab by Apple at gaining relevance in a desktop gaming space that is still dominated by Microsoft with its Xbox Live network. 
+Time: OS X Mountain Lion's 10 Most Important New Features. 
+Developers already were given a final trial version of Mountain Lion, the so-called "gold master," at last month's conference. 
+Apple's transitioning of some mobile features to its desktop system suggests that the company is at least mindful of Microsoft's aggressive move to create a seamless experience between smartphones, tablets and desktops. 
+Microsoft's Windows 8 system, planned for later this year, is designed to work with touchscreen devices as well as on laptops and desktops. 
+The computing giant has struggled in the mobile space, particularly with tablets, but early reviews suggest the new system will mark Redmond's most serious challenge yet to Apple's dominance. 
