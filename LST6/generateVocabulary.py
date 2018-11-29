@@ -17,7 +17,7 @@ for filepath in glob('News_CNN_3_classes_30\\**'):
         documents.append(text)
 
         text = nltk.word_tokenize(text)
-        text = [lemmatizer.lemmatize(word) for word in text]
+        
         text = [word.lower() for word in text if word.isalpha()]
 
         for token in text:
