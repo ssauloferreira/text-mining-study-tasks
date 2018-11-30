@@ -1,0 +1,29 @@
+Combining the intuition of humans with the impartiality of computers could improve decision-making for organizations, eventually leading to lower costs and better profits, according to a team of researchers.
+
+In a study, researchers said a computer program that analyzed the estimates of an agribusiness expert helped a business division at Dow AgroSciences improve the accuracy of its forecasts, leading to an increase in profits of 2 to 3 percent and a decrease in costs of 6 to 7 percent, said Saurabh Bansal, assistant professor of supply chain management in Penn State's Smeal College of Business.
+
+The team worked with a production expert from Dow AgroSciences management to improve predictions in the company's seed corn division.
+
+Producing seed corn, which farmers eventually use as seeds to produce their own crops, can be a tricky endeavor with several factors, including variations in demand and weather, increasing the uncertainty, according to the researchers.
+
+"Every year, the company needs to figure out how many acres of land they are going to use to produce seed corn," said Bansal. "But in this competitive industry, many varieties of the seed corn are new, and the company does not have a lot of experience in growing the new type. As a result, it does not know what the yield would be, or how many bushels of corn they will get from its fields. Yet, an estimate of the yield is necessary to optimize the resources used for growing seed corn."
+
+Companies often rely on managers as experts to provide estimates of future events and activity because it is more cost effective than sending researchers into the field to conduct studies to gather information. However, these experts, who tend to make these predictions based on mental models drawn from years of experience, often introduce their own biases that can alter the projections.
+
+"Everybody likes to claim that they are experts, yet deep down we know that some experts are better than others," said Bansal. "So far, there has been no objective measure whether this expert is better than another and by how much. What we've been able to do is come up with specific metrics that allow us to quantify expertise."
+
+The researchers, who report the findings in a forthcoming issue of Operations Research, available online now, developed the computer model to estimate the risk associated with yield. They first gathered judgments for the quantiles of the yield from a domain expert. For example, the expert might estimate that there is a 50 percent chance that the firm will get 55 bushels per acre.
+
+Then, the researcher used a mathematical model to translate the quantile estimates into mean and standard deviation of yield.
+
+"The mean provides estimates for how many bushels the firm can expect on average, while the standard deviation captures the expected variability in the growth process," said Bansal, who worked with Genaro J. Gutierrez, associate professor of information, risk, and operations management at the University of Texas at Austin, and John R. Keiser, of Dow AgroSciences.
+
+After comparing the historic data with the expert's predictions, the program can then provide insights into the bias of the expert's own mental models, according to the researchers.
+
+They add that by using this comparison the model quantifies expertise -- or the value of expert judgments -- as being equal to a specific number of data points collected in the field.
+
+"Before this, we really did not know how to compare information provided by experts and by data," said Bansal. "This model allows us to do just that and lets us say that, for example, this expert is worth collecting 35 data points from samples in the field, which is a much more objective measurement."
+
+He added that this is also powerful because it allows company officials to compare and select experts, determine whether they should seek expert advice, or collect data, as well as quantify how effective their training is for experts.
+
+Bansal said that, in the future, the model could be implemented to help improve guidance from experts in other industries, including the biofuel industry and semiconductor industry, that typically operate under heavy supply uncertainty.

@@ -1,0 +1,45 @@
+################# 1 QUESTÃO #################
+	###### LETRA A ######
+	P(Sam|am) = c(am,Sam)/c(am)
+	P(Sam|am) = 2/3 
+	P(Sam|am) = 0.66 
+	
+	###### LETRA B ######
+	P(Sam|and) = c(and,Sam)/c(and)
+	P(Sam|and) = 1/1
+	P(Sam|and) = 1
+
+	###### LETRA C ######
+	P(am|I) = c(I, am)/c(I)
+	P(am|I) = 3/4
+	P(am|I) = 0.75
+
+	###### LETRA D ######
+	P(do|I) = c(I, do)/c(I)	
+	P(do|I) = 1/4
+	P(do|I) = 0.25
+
+
+################# 2 QUESTÃO #################
+P(I want chinese food) = P(want|I) * P(chinese|want) * P(food|chinese)
+	###### LETRA A ######
+	P(want|I) = 0.33
+	P(chinese|want) = 0.0065
+	P(food|chinese) = 0.52
+	P(I want chinese food) = 1.1154 * 10^(-3)
+
+	###### LETRA B ######
+	P(want|I) = 0.21
+	P(chinese|want) = 0.0029 
+	P(food|chinese) = 0.052
+	P(I want chinese food) = 3.1668 * 10^(-5)
+
+	###### LETRA C ######
+	Na tabela B foi utilizado o algoritmo de suavização de Laplace,
+	para remover as probabilidades que estavam zeradas. Que pode ser
+	percebido, por exemplo, na redução da probabilidade de P(want|I), 
+	que na tabela A valia 0.33 e após a suavização passou a valer 0.21.
+	Sendo assim, a probabilidade de B será menor que a probabilidade de A.
+	
+	
+	
