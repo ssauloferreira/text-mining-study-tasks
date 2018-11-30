@@ -14,11 +14,11 @@ for filepath in glob('News_CNN_3_classes_30\\**'):
         arq = open(file, 'r')
         text = arq.read()
 
-        documents.append(text)
-
         text = nltk.word_tokenize(text)
         
         text = [word.lower() for word in text if word.isalpha()]
+
+        documents.append(text)
 
         for token in text:
             if token in vocabulary:
@@ -28,9 +28,22 @@ for filepath in glob('News_CNN_3_classes_30\\**'):
             elif token not in vocabulary:
                 vocabulary[token] = 1
 
-        print('loading... %f%%' % (i * 100 / len(filepath)))
         i += 1
 
 print('saving vocabulary')
 with open('vocabulary', 'wb') as fp:
     pickle.dump(vocabulary, fp)
+
+idf = {}
+
+for word in vocabulary.keys():
+    count = 0
+    for text in documents:
+        if word in text:
+            count += 1
+    idf[word] = count
+
+print(idf)
+print('saving idfs')
+with open('idf', 'wb') as fp:
+    pickle.dump(idf, fp)

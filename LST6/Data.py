@@ -2,8 +2,8 @@ import numpy as np
 
 class Data():
 
-    data = np.array(0)
-    label = np.array(0)
+    data = []
+    label = []
 
     def __init__(self):
         data = np.array(0)

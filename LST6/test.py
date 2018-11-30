@@ -1,9 +1,11 @@
 from glob import glob
 import pickle
+import numpy as np
 
-print('loading vocabulary...')
-with open('vocabulary', 'rb') as fp:
-    vocabulary = pickle.load(fp)
-print('vocabulary has been loaded.')
-print(vocabulary)
-print(len(vocabulary))
+
+a = [[1,2,3], [3,5,6]]
+b = np.array([[1,2,3]])
+
+np.insert(b,a,axis=1)
+
+print(b)
