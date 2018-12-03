@@ -2,12 +2,15 @@ import math
 from glob import glob
 
 import numpy as np
+import xlrd
 from sklearn.cluster import KMeans
 import nltk
 from nltk import WordNetLemmatizer
 from nltk.cluster import KMeansClusterer
 from sklearn.metrics import confusion_matrix
 from spacy.compat import pickle
+from xlutils.copy import copy
+
 from LST6.Data import Data
 
 lemmatizer = WordNetLemmatizer()
@@ -28,7 +31,7 @@ def getIDF(word):
         return 0
     return math.log2(90/idf[word])
 
-def toProcess(vocabulary,n):
+def toProcess(vocabulary, n):
 
     print('processing vocabulary')
 
@@ -65,6 +68,7 @@ def generateTFIDF(dictionary):
             arq = open(file, 'r')
             text = arq.read()
             text = nltk.word_tokenize(text)
+            text = [lemmatizer.lemmatize(word) for word in text]
             text = [word.lower() for word in text if word.isalpha()]
 
             textLine = []
@@ -98,6 +102,7 @@ def generateBOW(dictionary):
             arq = open(file, 'r')
             text = arq.read()
             text = nltk.word_tokenize(text)
+            text = [lemmatizer.lemmatize(word) for word in text]
             text = [word.lower() for word in text if word.isalpha()]
 
 
@@ -120,27 +125,36 @@ def generateBOW(dictionary):
 
     return documents
 
-def main():
-    print('loading vocabulary...')
-    with open('vocabulary', 'rb') as fp:
-        vocabulary = pickle.load(fp)
-    print('vocabulary has been loaded.')
+def printToSheet(dictionary, documents):
+    line = []
+    line.append(" ")
+    for word in dictionary:
+        line.append(word)
 
-    dictionary = toProcess(vocabulary,500)
-    print(dictionary)
+    lineToSheet(line)
+    i = 0
+    for doc in documents.data:
+        i = i+1
 
-    documents = generateBOW(dictionary)
+        line = []
+        line.append("doc %d" % i)
+        for index in doc:
+            line.append(index)
+        lineToSheet(line)
 
-    vectors = [np.array(f) for f in documents.data]
+def lineToSheet(line):
+    workbook = xlrd.open_workbook("bow.xls")
+    worksheet = workbook.sheet_by_index(0)
 
-    clusterer = KMeansClusterer(3, nltk.cluster.cosine_distance, repeats=100, avoid_empty_clusters=True)
-    clusters = clusterer.cluster(vectors, True)
-    confMatrix = confusion_matrix(documents.label, clusters)
+    wb = copy(workbook)
 
-    print(confMatrix)
+    linha = worksheet.nrows
+    sheet = wb.get_sheet(0)
 
+    for col in range(len(line)):
+        sheet.write(linha, col, str(line[col]))
 
-
-
-if __name__ == '__main__':
-    main()
+    try:
+        wb.save("bow.xls")
+    except IOError:
+        wb.save("bow.xls")

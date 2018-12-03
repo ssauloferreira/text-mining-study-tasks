@@ -15,7 +15,7 @@ for filepath in glob('News_CNN_3_classes_30\\**'):
         text = arq.read()
 
         text = nltk.word_tokenize(text)
-        
+        text = [lemmatizer.lemmatize(word) for word in text]
         text = [word.lower() for word in text if word.isalpha()]
 
         documents.append(text)
