@@ -1,5 +1,5 @@
 import os
-
+from pyrouge import Rouge155
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -7,12 +7,11 @@ from stanfordcorenlp import StanfordCoreNLP
 
 
 STOP_WORDS = set(stopwords.words('english'))
-nlp = StanfordCoreNLP("C:\stanford-corenlp-full-2018-02-27")
+nlp = StanfordCoreNLP("C:\stanford-corenlp-full-2018-10-05")
 
 def sentence_spliting(text):
     sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
     return sent_detector.tokenize(text)
-
 
 def remove_stop_words(tokens):
     words_filter = []
@@ -24,7 +23,6 @@ def remove_stop_words(tokens):
 
     return words_filter
 
-
 def tokenizar(sentences):
     tokens_sentences = []
     for sentence in sentences:
@@ -34,14 +32,12 @@ def tokenizar(sentences):
 
     return tokens_sentences
 
-
 def calcular_pesos_feature1(dicio):
     soma = 0
     for tf_idf in dicio.values():
         soma += tf_idf
 
     return soma
-
 
 '''
 http://www.ultravioletanalytics.com/blog/tf-idf-basics-with-pandas-scikit-learn
@@ -50,23 +46,25 @@ https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.tex
 https://www.kaggle.com/adamschroeder/countvectorizer-tfidfvectorizer-predict-comments
 '''
 
-
 def feature_1(tokens_sentences):  # TF-IDF dos termos de uma sentenca
     peso_sentencas = []
     vectorizer = TfidfVectorizer(strip_accents=ascii, stop_words='english', analyzer='word', min_df=1)
 
     for sentence in tokens_sentences:
-        train_fit = vectorizer.fit(sentence)
+        try:
+            train_fit = vectorizer.fit(sentence)
 
-        idf = vectorizer.idf_
-        # armazena o tf-idf referente aos termos de uma frase:
-        dicio = dict(zip(train_fit.get_feature_names(), idf))
+            idf = vectorizer.idf_
+            # armazena o tf-idf referente aos termos de uma frase:
+            dicio = dict(zip(train_fit.get_feature_names(), idf))
 
-        # armazena o peso total referente a frase:
-        peso_sentencas.append(calcular_pesos_feature1(dicio))
+            # armazena o peso total referente a frase:
+            peso_sentencas.append(calcular_pesos_feature1(dicio))
+        except ValueError:
+            peso_sentencas.append(0)
+
 
     return peso_sentencas
-
 
 def update_dicio_words(dependency_parse):
     peso = 0
@@ -80,7 +78,6 @@ def update_dicio_words(dependency_parse):
 
     return peso
 
-
 def convert_dicio(tokens):
     dicio = {}
     for w in tokens:
@@ -88,7 +85,6 @@ def convert_dicio(tokens):
             dicio[w] = 0
 
     return dicio
-
 
 '''
 Atribuir os pesos de acordo com a função gramática da palavra na frase:
@@ -108,7 +104,6 @@ def feature_2(sentences, tokens_sentences):
 
     return peso_sentencas
 
-
 def feature_3(peso_sentencas_feature_2, sentences):
     peso_sentencas = []
     max_tamanho = 0
@@ -123,6 +118,55 @@ def feature_3(peso_sentencas_feature_2, sentences):
 
     return peso_sentencas
 
+def summarize(sentences, weight):
+    aux= []
+    sum = ""
+
+    for i in range(len(sentences)):
+        aux.append([sentences[i], i, weight[i]])
+
+    aux.sort(key=lambda x: x[2], reverse = True)
+
+    aux = aux[:4]
+
+    aux.sort(key=lambda x: x[1])
+
+    for i in range(4):
+        sum = sum + aux[i][0] + '\n'
+
+    return sum
+
+def summarizeComb2(sentences, weight1, weight2):
+    maxw1 = max(weight1)
+    maxw2 = max(weight2)
+    minw1 = min(weight1)
+    minw2 = min(weight2)
+
+    size = len(sentences)
+
+    new_w1 = [(i-minw1)/(maxw1-minw1) for i in weight1]
+    new_w2 = [(i-minw2)/(maxw2-minw2) for i in weight2]
+
+    combine = [(new_w1[i]+new_w2[i])/2 for i in range(size)]
+
+    return summarize(sentences, combine)
+
+def summarizeComb3(sentences, weight1, weight2, weight3):
+    maxw1 = max(weight1)
+    maxw2 = max(weight2)
+    minw1 = min(weight1)
+    minw2 = min(weight2)
+    maxw3 = max(weight3)
+    minw3 = min(weight3)
+
+    size = len(sentences)
+
+    new_w1 = [(i - minw1) / (maxw1 - minw1) for i in weight1]
+    new_w2 = [(i - minw2) / (maxw2 - minw2) for i in weight2]
+    new_w3 = [(i - minw3) / (maxw3 - minw3) for i in weight3]
+
+    combine = [(new_w1[i] + new_w2[i] + new_w3[i]) / 2 for i in range(size)]
+    return summarize(sentences, combine)
 
 def main():
     local_global = 'News_LE_09/'
@@ -134,7 +178,6 @@ def main():
     for n in news:
         local = local_global + n + '/'
         arq = os.listdir(local)
-
         f = open(local + arq[1], 'r')
 
         text = f.read()
@@ -145,17 +188,55 @@ def main():
         sentences = sentence_spliting(text)
         tokens_sentences = tokenizar(sentences)
 
+        dir = './' + local + 'sums'
+        os.mkdir(dir)
+
         # feature 1
         # retorna uma matriz, onde cada posição contem o peso total da frase
         pesos_frases_feature_1 = feature_1(tokens_sentences)
-        print(pesos_frases_feature_1)
+        sum1 = summarize(sentences, pesos_frases_feature_1)
+
+        arq = open(local + 'sums/sum1.txt', 'w')
+        arq.write(sum1)
+
         # feature 2
         pesos_frases_feature_2 = feature_2(sentences, tokens_sentences)
-        print(pesos_frases_feature_2)
-        # feature 3
-        print(pesos_frases_feature_3)
-        pesos_frases_feature_3 = feature_3(pesos_frases_feature_2, sentences)
+        sum2 = summarize(sentences, pesos_frases_feature_2)
 
+        arq = open(local + 'sums/sum2.txt', 'w')
+        arq.write(sum2)
+
+        # feature 3
+        pesos_frases_feature_3 = feature_3(pesos_frases_feature_2, sentences)
+        sum3 = summarize(sentences, pesos_frases_feature_3)
+
+        arq = open(local + 'sums/sum3.txt', 'w')
+        arq.write(sum3)
+
+        # feature 1+2
+        sum12 = summarizeComb2(sentences, pesos_frases_feature_1, pesos_frases_feature_2)
+
+        arq = open(local + 'sums/sum12.txt', 'w')
+        arq.write(sum12)
+
+        # feature 2+3
+        sum23 = summarizeComb2(sentences, pesos_frases_feature_2, pesos_frases_feature_3)
+
+        arq = open(local + 'sums/sum23.txt', 'w')
+        arq.write(sum23)
+
+        # feature 1+3
+        sum13 = summarizeComb2(sentences, pesos_frases_feature_1, pesos_frases_feature_3)
+
+        arq = open(local + 'sums/sum13.txt', 'w')
+        arq.write(sum13)
+
+        # feature 1+2+3
+        sum123 = summarizeComb3(sentences, pesos_frases_feature_1, pesos_frases_feature_2, pesos_frases_feature_3)
+
+        arq = open(local + 'sums/sum123.txt', 'w')
+        arq.write(sum123)
 
 if __name__ == "__main__":
+
     main()
